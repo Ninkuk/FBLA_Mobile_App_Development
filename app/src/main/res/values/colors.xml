@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#020629</color>
+    <color name="colorAccent">#00BFA5</color>
+    <color name="teal">#1DE9B6</color>
+    <color name="tealDark">#00BFA5</color>
+    <color name="green">#00E676</color>
+    <color name="black">#212121</color>
+    <color name="dark_grey">#263238</color>
+    <color name="dark_blue">#242b3f</color>
+    <color name="gray">#616161</color>
+    <color name="light_gray">#E0E0E0</color>
+    <color name="gold">#FFC107</color>
+    <color name="google_red">#DD4B39</color>
+    <color name="dark_red">#b71c1c</color>
+    <color name="transparent">#00212121</color>
+    <color name="white">#FFFFFF</color>
+    <color name="rich_dark_blue">#0D47A1</color>
+    <color name="colorProgressBar">#0D47A1</color>
+    <color name="materialRed">#D32F2F</color>
+    <color name="material_purple">#512DA8</color>
+    <color name="material_blue">#1976D2</color>
+    <color name="material_orange">#FFA000</color>
+    <color name="instagramPink">#E4405F</color>
+    <color name="twitter">#38A1F3</color>
+</resources>

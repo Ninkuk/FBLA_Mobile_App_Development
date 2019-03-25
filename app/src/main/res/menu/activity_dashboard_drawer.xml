@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_dashboard"
+            android:checked="true"
+            android:icon="@drawable/ic_check_24dp"
+            android:title="Quiz Me!" />
+        <item
+            android:id="@+id/nav_leaderboard"
+            android:icon="@drawable/ic_insert_chart_24dp"
+            android:title="Leaderboard" />
+        <item
+            android:id="@+id/nav_achievements"
+            android:icon="@drawable/ic_badge_with_a_star"
+            android:title="Achievements" />
+        <item
+            android:id="@+id/nav_statistics"
+            android:icon="@drawable/ic_timeline_24dp"
+            android:title="Statistics" />
+        <item
+            android:id="@+id/nav_resources"
+            android:icon="@drawable/ic_bookmark_24dp"
+            android:title="Resources" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_info_24dp"
+            android:title="About Us" />
+        <item
+            android:id="@+id/nav_bug_report"
+            android:icon="@drawable/ic_bug_report_24dp"
+            android:title="Bug Report" />
+    </group>
+
+    <item android:title="Spread the word">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share the app" />
+            <item
+                android:id="@+id/nav_rate_us"
+                android:icon="@drawable/ic_star_24dp"
+                android:title="Rate us" />
+        </menu>
+    </item>
+
+</menu>
