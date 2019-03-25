@@ -19,19 +19,6 @@ Path to FBLA is a mobile app that helps the user pave their path to become a Fut
    * Users can report any bugs they find in the bug report page
    * Our app is live on the [playstore](https://play.google.com/store/apps/details?id=com.pathtofblaquiz.pathtofbla)!
    * Users can share and rate our app
-## Testing
-Firebase test lab was used to test the app and ensure the best quality for our users.
-## Requirements
-   * Target SDK 28
-   * API Levels 23+
-## Installation
-   #### Through APK
-      * On an Android device, download our app APK file from here[b]
-      * Open the download Path to FBLA app on your phone
-   #### Through Android Studio Emulator
-        * Download our entire repository
-        * Open the project folder in Android Studio
-        * Run the application by pressing the green play button at the top right corner
 ## What we used
   * Kotlin
   * Firebase tools
@@ -50,6 +37,19 @@ Firebase test lab was used to test the app and ensure the best quality for our u
         * Picasso for image cashing
         * Material library for a material designed UI
         * Circular image view to allow for circular images
+## Testing
+Firebase test lab was used to test the app and ensure the best quality for our users.
+## Requirements
+   * Target SDK 28
+   * API Levels 23+
+## Installation
+   #### Through APK
+      * On an Android device, download our app APK file from here[b]
+      * Open the download Path to FBLA app on your phone
+   #### Through Android Studio Emulator
+      * Download our entire repository
+      * Open the project folder in Android Studio
+      * Run the application by pressing the green play button at the top right corner
 ## Copyrights
    * App’s images and icons were obtained through royalty-free agencies icons8.com and vecteezy.com
    * No templates were used
