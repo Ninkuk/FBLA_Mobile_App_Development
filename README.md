@@ -7,6 +7,7 @@ Path to FBLA is a mobile app that helps the user pave their path to become a Fut
    * A quick quiz feature. The quick quiz is made up of one random question from each category
    * Randomness. Each quiz queries random questions from the specified category to give the user a different experience on each run. The order of the question’s choices are also shuffled to avoid the user just memorizing the position of the answer
    * Sign up and log in using firebase authentication
+   * An intro wizard for new users.
    * Timed questions
    * Sounds are incorporated in the quiz. For example, a ta-da sound is played once the user finishes the quiz
    * Earn points for each quiz. The score takes the time used and number of correct answers into the calculation
