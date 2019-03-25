@@ -1,8 +1,7 @@
-# FBLA_Mobile_App_Development
-Path to FBLA
-* Path to FBLA is a mobile app that helps the user pave their path to become a Future Business Leader of America. It prepares them for multiple FBLA objective tests, such as the intro to FBLA and Parliamentary Procedure tests. The user can take quizzes from 10 different categories with over 150 questions.
+# Path to FBLA
+Path to FBLA is a mobile app that helps the user pave their path to become a Future Business Leader of America. It prepares them for multiple FBLA objective tests, such as the intro to FBLA and Parliamentary Procedure tests. The user can take quizzes from 10 different categories with over 150 questions.
         Path to FBLA was built for Android using the programming language Kotlin and firebase as the database.
-- Key Features
+## Key Features
    * 10 different test categories
    * Over 150 questions
    * A quick quiz feature. The quick quiz is made up of one random question from each category
@@ -18,21 +17,23 @@ Path to FBLA
    * Users can learn the content through flashcards we created on Quizlet. The links to Quizlet can be found on the resources page. The links open an in-app browser through WebView
    * In-depth analysis of user performance in the statistics page
    * Users can report any bugs they find in the bug report page
-- Testing
-   * Firebase test lab was used to test the app and ensure the best quality for our users.
-- Requirements
+   * Our app is live on the [playstore](https://play.google.com/store/apps/details?id=com.pathtofblaquiz.pathtofbla)!
+   * Users can share and rate our app
+## Testing
+Firebase test lab was used to test the app and ensure the best quality for our users.
+## Requirements
    * Target SDK 28
    * API Levels 23+
-- Installation
-   * Through APK
+## Installation
+   #### Through APK
       * On an Android device, download our app APK file from here[b]
       * Open the download Path to FBLA app on your phone
-   * Through Android Studio Emulator
+   #### Through Android Studio Emulator
         * Download our entire repository
         * Open the project folder in Android Studio
         * Run the application by pressing the green play button at the top right corner
-- What we used
-    * Kotlin
+## What we used
+  * Kotlin
   * Firebase tools
     * Realtime Database
     * Authentication
@@ -49,12 +50,12 @@ Path to FBLA
         * Picasso for image cashing
         * Material library for a material designed UI
         * Circular image view to allow for circular images
-- Copyrights
+## Copyrights
    * App’s images and icons were obtained through royalty-free agencies icons8.com and vecteezy.com
    * No templates were used
-- License and terms of service
+## License and terms of service
    * MIT License was used
    * Terms of service for the app can be found in our about page
-- Developers
+## Developers
    * Bader Alrifai
    * Ninad Kulkarni
