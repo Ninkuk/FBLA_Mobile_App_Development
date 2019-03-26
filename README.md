@@ -24,7 +24,7 @@ Path to FBLA is a mobile app that helps the user pave their path to become a Fut
    * Users can share and rate our app
    * Our app is live on the [playstore!](https://play.google.com/store/apps/details?id=com.pathtofblaquiz.pathtofbla) 
    
-   <a href="https://play.google.com/store/apps/details?id=com.pathtofblaquiz.pathtofbla"><img src="https://github.com/Ninkuk/FBLA_Mobile_App_Development/blob/master/google-play-badge2.png"></a>
+   <a href="https://play.google.com/store/apps/details?id=com.pathtofblaquiz.pathtofbla"><img src="https://github.com/Ninkuk/FBLA_Mobile_App_Development/blob/master/google-play-badge.png"></a>
    
 ## What we used
   * Kotlin
