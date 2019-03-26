@@ -21,8 +21,11 @@ Path to FBLA is a mobile app that helps the user pave their path to become a Fut
    * Users can learn the content through flashcards we created on Quizlet. The links to Quizlet can be found on the resources page. The links open an in-app browser through WebView
    * In-depth analysis of user performance in the statistics page
    * Users can report any bugs they find in the bug report page
-   * Our app is live on the [playstore!](https://play.google.com/store/apps/details?id=com.pathtofblaquiz.pathtofbla)
    * Users can share and rate our app
+   * Our app is live on the [playstore!](https://play.google.com/store/apps/details?id=com.pathtofblaquiz.pathtofbla) 
+   
+   <a href="https://play.google.com/store/apps/details?id=com.pathtofblaquiz.pathtofbla"><img src="https://github.com/Ninkuk/FBLA_Mobile_App_Development/blob/master/google-play-badge2.png"></a>
+   
 ## What we used
   * Kotlin
   * Firebase tools
