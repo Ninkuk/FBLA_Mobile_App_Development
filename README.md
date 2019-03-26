@@ -50,13 +50,17 @@ Firebase test lab was used to test the app and ensure the best quality for our u
    * Target SDK 28
    * API Levels 23+
 ## Installation
+   #### Through Playstore
+   * On an Android device, download our app from the [playstore](https://play.google.com/store/apps/details?id=com.pathtofblaquiz.pathtofbla)
+   * Open the app
    #### Through APK
-      * On an Android device, download our app APK file from here[b]
-      * Open the download Path to FBLA app on your phone
+   * On an Android device, download our app APK file from here
+   * Open the download Path to FBLA app on your phone
    #### Through Android Studio Emulator
-      * Download our entire repository
-      * Open the project folder in Android Studio
-      * Run the application by pressing the green play button at the top right corner
+   * Download our entire repository as a zip
+   * Unzip it 
+   * In Android Studio, click on "Open an existing Android Studio project" and select the unzipped project 
+   * Run the application by pressing the green play button at the top right corner
 ## Copyrights
    * App’s images and icons were obtained through royalty-free agencies icons8.com and vecteezy.com
    * No templates were used
