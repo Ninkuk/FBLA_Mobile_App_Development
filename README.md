@@ -1,6 +1,9 @@
 # Path to FBLA
 Path to FBLA is a mobile app that helps the user pave their path to become a Future Business Leader of America. It prepares them for multiple FBLA objective tests, such as the intro to FBLA and Parliamentary Procedure tests. The user can take quizzes from 10 different categories with over 150 questions.
         Path to FBLA was built for Android using the programming language Kotlin and firebase as the database.
+
+<img src="https://github.com/Ninkuk/FBLA_Mobile_App_Development/blob/master/feature_graphic.jpg" align = "center">
+
 ## Key Features
    * 10 different test categories
    * Over 150 questions
