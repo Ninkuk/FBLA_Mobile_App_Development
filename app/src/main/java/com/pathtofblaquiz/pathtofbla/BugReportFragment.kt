@@ -23,7 +23,18 @@ import java.util.*
 class BugReportFragment : Fragment() {
 
     //this list contains the options for spinner used to select the page
-    val pageOptions = arrayOf("Select a page", "Dashboard Page", "Questions Page", "About Page", "Not page specific issue")
+    val pageOptions = arrayOf(
+        "Select a page",
+        "Dashboard Page",
+        "Questions Page",
+        "Leaderboard Page",
+        "Achievements Page",
+        "Statistics Page",
+        "Resources Page",
+        "About Page",
+        "Bug Report Page",
+        "Not a page specific issue"
+    )
 
     //this string is initialized in the getSpinnerValue and used in the submitReport function
     lateinit var selectedPage: String
