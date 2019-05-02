@@ -15,6 +15,7 @@ Path to FBLA is a mobile app that helps the user pave their path to become a Fut
    * Users can customize their quiz diffuclty by changing the amount of questions and the timer length of each question
    * Sounds are incorporated in the quiz. For example, a ta-da sound is played once the user finishes the quiz
    * Earn points for each quiz. The score takes the time used and number of correct answers into the calculation
+        * Users receive a notification if they break their personal high score
    * The users can share their score through Twitter or another social media platform
    * Achievements for the number of quizzes taken, level, and points earned on a quiz
    * Level up by earning XP from achievements and quizzes
