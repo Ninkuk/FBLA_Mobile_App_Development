@@ -1,5 +1,6 @@
 package com.pathtofblaquiz.pathtofbla
 
+import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -42,11 +43,12 @@ class Quiz {
      * Queries data from the database and creates Question objects from the data
      * Shuffles the questions List in order to give the user a new experience each game
      *
-     * @oaram topic - Used to indicate what category of questions are being queried. Determines tha path of the database reference
+     * @param topic - Used to indicate what category of questions are being queried. Determines tha path of the database reference
+     * @param numberOfQuestions - the number of questions the user chooses to be tested on. Determines how many Questions to query from the given topic
      * @param firebaseQuestionCallback - The callback is used due to Firebase's asynchronous behavior. When this method is called, you have to override the firebaseQuestionCallback method in the parameter.
      *                           This makes the program wait for the List to finish querying before using the List, which avoids any IndexOutOfBounds Exceptions
      */
-    fun getQuestions(topic: String, firebaseQuestionCallback: FirebaseQuestionCallback) {
+    fun getQuestions(topic: String, numberOfQuestions: Int, firebaseQuestionCallback: FirebaseQuestionCallback) {
         val database =
             FirebaseDatabase.getInstance().getReference(topic) //creates a database reference to the specified topic
 
@@ -58,7 +60,7 @@ class Quiz {
                     listOf<Int>() //keeps track of the random numbers generated in order to avoid a duplicate question query
 
                 var i = 0 //used for iterating through the while loop
-                while (i < 5) {
+                while (i < numberOfQuestions) {
                     var randomNumber =
                         random.nextInt(p0.childrenCount.toInt()) + 1 //generates a random number from 1 to the number of children that the node of data has (both sides of the range are inclusive).
 
@@ -83,7 +85,7 @@ class Quiz {
             }
 
             override fun onCancelled(p0: DatabaseError) {
-
+                Log.d("DB ERROR", "Error occurred while connecting to the Database")
             }
         })
     }
@@ -147,7 +149,7 @@ class Quiz {
             }
 
             override fun onCancelled(p0: DatabaseError) {
-
+                Log.d("DB ERROR", "Error occurred while connecting to the Database")
             }
         })
     }

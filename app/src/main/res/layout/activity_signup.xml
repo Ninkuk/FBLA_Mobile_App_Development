@@ -41,6 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -49,52 +51,132 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-            <EditText
-                android:id="@+id/usernameTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/white"
-                android:drawableStart="@drawable/ic_account_circle_white_24dp"
-                android:drawablePadding="10dp"
-                android:ems="10"
-                android:hint="@string/username"
-                android:inputType="textPersonName"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/darker_gray"
-                android:textCursorDrawable="@null"
-                android:textSize="20sp" />
+            <!--<EditText-->
+            <!--android:id="@+id/usernameTextView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:backgroundTint="@android:color/white"-->
+            <!--android:drawableStart="@drawable/ic_account_circle_white_24dp"-->
+            <!--android:drawablePadding="10dp"-->
+            <!--android:ems="10"-->
+            <!--android:hint="@string/username"-->
+            <!--android:inputType="textPersonName"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textColorHint="@android:color/darker_gray"-->
+            <!--android:textCursorDrawable="@null"-->
+            <!--android:textSize="20sp" />-->
 
-            <EditText
-                android:id="@+id/emailTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="@android:color/white"
-                android:drawableStart="@drawable/ic_email_white_24dp"
-                android:drawablePadding="10dp"
-                android:ems="10"
-                android:hint="@string/email_address"
-                android:inputType="textEmailAddress"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/darker_gray"
-                android:textCursorDrawable="@null"
-                android:textSize="18sp" />
+            <!--<EditText-->
+            <!--android:id="@+id/emailTextView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:backgroundTint="@android:color/white"-->
+            <!--android:drawableStart="@drawable/ic_email_white_24dp"-->
+            <!--android:drawablePadding="10dp"-->
+            <!--android:ems="10"-->
+            <!--android:hint="@string/email_address"-->
+            <!--android:inputType="textEmailAddress"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textColorHint="@android:color/darker_gray"-->
+            <!--android:textCursorDrawable="@null"-->
+            <!--android:textSize="18sp" />-->
 
-            <EditText
-                android:id="@+id/passwordTextView"
+            <!--<EditText-->
+            <!--android:id="@+id/passwordTextView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:backgroundTint="@android:color/white"-->
+            <!--android:drawableStart="@drawable/ic_lock_white_24dp"-->
+            <!--android:drawablePadding="10dp"-->
+            <!--android:ems="10"-->
+            <!--android:hint="@string/password"-->
+            <!--android:inputType="textPassword"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textColorHint="@android:color/darker_gray"-->
+            <!--android:textCursorDrawable="@null"-->
+            <!--android:textSize="20sp" />-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/usernameTextInputLayout"
+                style="@style/Widget.Design.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="@android:color/white"
-                android:drawableStart="@drawable/ic_lock_white_24dp"
-                android:drawablePadding="10dp"
-                android:ems="10"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/darker_gray"
-                android:textCursorDrawable="@null"
-                android:textSize="20sp" />
+                android:textColorHint="@color/light_gray"
+                app:hintAnimationEnabled="true"
+                app:hintTextColor="@color/white"
+                app:startIconTint="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/usernameTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:drawableStart="@drawable/ic_account_circle_white_24dp"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:hint="@string/username"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailTextInputLayout"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/light_gray"
+                app:hintAnimationEnabled="true"
+                app:hintTextColor="@color/white"
+                app:startIconTint="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:drawableStart="@drawable/ic_email_white_24dp"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:hint="@string/email_address"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordTextInputLayout"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/light_gray"
+                app:hintAnimationEnabled="true"
+                app:hintTextColor="@color/white"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/white"
+                app:startIconTint="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/passwordTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:drawableStart="@drawable/ic_lock_white_24dp"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/signupButton"

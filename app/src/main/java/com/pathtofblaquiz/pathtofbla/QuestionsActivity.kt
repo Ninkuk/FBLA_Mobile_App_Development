@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.appcompat.app.AlertDialog
 import android.view.View
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -28,11 +29,10 @@ import java.util.*
 class QuestionsActivity : AppCompatActivity() {
 
     var right = 0
-    var questionTimeLeft = 30000L
+    var questionTimeLeft = (MainActivity.timerHardness * 1000).toLong()
     var totalTimeLeft = 0L
     lateinit var timer: CountDownTimer
     val uid = FirebaseAuth.getInstance().uid ?: ""
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +43,6 @@ class QuestionsActivity : AppCompatActivity() {
         }
 
         val chosenCategory = intent.getStringExtra(CategoryViewHolder.CATEGORY_TITLE_KEY)
-
         continueButton.visibility = View.INVISIBLE
 
         val quiz = Quiz()
@@ -54,7 +53,7 @@ class QuestionsActivity : AppCompatActivity() {
          */
         if (chosenCategory != null) {
             category.text = chosenCategory
-            quiz.getQuestions(chosenCategory, object : FirebaseQuestionCallback {
+            quiz.getQuestions(chosenCategory, MainActivity.numberOfQuestions, object : FirebaseQuestionCallback {
                 override fun onQuestionCallback(list: List<Question>) {
                     for (i in list) {
                         i.choices = mutableListOf(i.answer, i.choice, i.choice1, i.choice2)
@@ -127,6 +126,25 @@ class QuestionsActivity : AppCompatActivity() {
     }
 
     /**
+     * This function overrides the android back button and asks users for a confirmation if they want to quit teh quiz
+     */
+    override fun onBackPressed() {
+        exitConfirmation()
+    }
+
+    /**
+     * There is no way to override the home button on android so the next best option is for us to safely quit the quiz for users.
+     */
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        if (level == TRIM_MEMORY_UI_HIDDEN) {
+            val switchToDashboard = Intent(this, MainActivity::class.java)
+            switchToDashboard.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(switchToDashboard)
+        }
+    }
+
+    /**
      * this function is used to iterate through the questions in a quiz
      * it updates the question fields, such as the question title, for the next question
      * it also resets the timer
@@ -147,9 +165,10 @@ class QuestionsActivity : AppCompatActivity() {
         questionNumberBig.text = "Question " + (questionNumber + 1).toString()
 
         //resets the timer for the question
-        timer = object : CountDownTimer(30000, 10) {
+        timer = object : CountDownTimer((MainActivity.timerHardness * 1000).toLong(), 10) {
             override fun onTick(p0: Long) {
-                timerProgressBar.max = 30000 //each question is 30 seconds long
+                timerProgressBar.max =
+                    MainActivity.timerHardness * 1000 //question timer is based upon the difficulty chosen
                 timerProgressBar.progress = p0.toInt()
                 questionTimeLeft = p0
             }
@@ -192,10 +211,12 @@ class QuestionsActivity : AppCompatActivity() {
             } else {
                 choice0.backgroundTintList = resources.getColorStateList(R.color.google_red)
                 mediaPlayerIncorrect.start()
-                questionTimeLeft = 0L //the timer is set to zero as to not count towards the score (The score equation takes into account the time left for each correct answer)
+                questionTimeLeft =
+                    0L //the timer is set to zero as to not count towards the score (The score equation takes into account the time left for each correct answer)
             }
             buttonModify(list, questionNumber)
-            continueButton.visibility = View.VISIBLE //the continue button is only made visible after the question is answered
+            continueButton.visibility =
+                View.VISIBLE //the continue button is only made visible after the question is answered
         }
         choice1.setOnClickListener {
             if (list[questionNumber].answer == choice1.text.toString()) {
@@ -205,10 +226,12 @@ class QuestionsActivity : AppCompatActivity() {
             } else {
                 choice1.backgroundTintList = resources.getColorStateList(R.color.google_red)
                 mediaPlayerIncorrect.start()
-                questionTimeLeft = 0L //the timer is set to zero as to not count towards the score (The score equation takes into account the time left for each correct answer)
+                questionTimeLeft =
+                    0L //the timer is set to zero as to not count towards the score (The score equation takes into account the time left for each correct answer)
             }
             buttonModify(list, questionNumber)
-            continueButton.visibility = View.VISIBLE //the continue button is only made visible after the question is answered
+            continueButton.visibility =
+                View.VISIBLE //the continue button is only made visible after the question is answered
         }
         choice2.setOnClickListener {
             if (list[questionNumber].answer == choice2.text.toString()) {
@@ -218,10 +241,12 @@ class QuestionsActivity : AppCompatActivity() {
             } else {
                 choice2.backgroundTintList = resources.getColorStateList(R.color.google_red)
                 mediaPlayerIncorrect.start()
-                questionTimeLeft = 0L //the timer is set to zero as to not count towards the score (The score equation takes into account the time left for each correct answer)
+                questionTimeLeft =
+                    0L //the timer is set to zero as to not count towards the score (The score equation takes into account the time left for each correct answer)
             }
             buttonModify(list, questionNumber)
-            continueButton.visibility = View.VISIBLE //the continue button is only made visible after the question is answered
+            continueButton.visibility =
+                View.VISIBLE //the continue button is only made visible after the question is answered
         }
         choice3.setOnClickListener {
             if (list[questionNumber].answer == choice3.text.toString()) {
@@ -231,10 +256,12 @@ class QuestionsActivity : AppCompatActivity() {
             } else {
                 choice3.backgroundTintList = resources.getColorStateList(R.color.google_red)
                 mediaPlayerIncorrect.start()
-                questionTimeLeft = 0L //the timer is set to zero as to not count towards the score (The score equation takes into account the time left for each correct answer)
+                questionTimeLeft =
+                    0L //the timer is set to zero as to not count towards the score (The score equation takes into account the time left for each correct answer)
             }
             buttonModify(list, questionNumber)
-            continueButton.visibility = View.VISIBLE //the continue button is only made visible after the question is answered
+            continueButton.visibility =
+                View.VISIBLE //the continue button is only made visible after the question is answered
         }
     }
 
@@ -286,12 +313,17 @@ class QuestionsActivity : AppCompatActivity() {
         val userRef = FirebaseDatabase.getInstance().reference
         userRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
-                val quizzes = p0.child("users/$uid/quizzes").value.toString().toInt() + 1 //queries the current quiz number of the user and increments it
-                val points = p0.child("users/$uid/totalPoints").value.toString().toInt() //queries the current points of the user
-                val categoryPoints = p0.child("CategoryPoints/$uid/$categoryRef").value.toString().toInt() //queries the current category points of the user
+                val quizzes =
+                    p0.child("users/$uid/quizzes").value.toString().toInt() + 1 //queries the current quiz number of the user and increments it
+                val points =
+                    p0.child("users/$uid/totalPoints").value.toString().toInt() //queries the current points of the user
+                val categoryPoints = p0.child("CategoryPoints/$uid/$categoryRef").value.toString()
+                    .toInt() //queries the current category points of the user
 
-                var level = p0.child("users/$uid/level").value.toString().toDouble() //queries the current level of the user to calculate how much XP is needed
-                var currentXP = p0.child("users/$uid/xp").value.toString().toDouble() + score //queries the current XP of the user to see if the user is ready to level up
+                var level = p0.child("users/$uid/level").value.toString()
+                    .toDouble() //queries the current level of the user to calculate how much XP is needed
+                var currentXP =
+                    p0.child("users/$uid/xp").value.toString().toDouble() + score //queries the current XP of the user to see if the user is ready to level up
                 var neededXP = level * 100 //calculates how much XP is needede to level up
 
                 //a while loop instead of an if statement in case the user has enough XP to level up more than once
@@ -302,12 +334,15 @@ class QuestionsActivity : AppCompatActivity() {
                     userRef.child("users/$uid/level").setValue(level.toInt()) //update the user's level in db
                     userRef.child("users/$uid/xp").setValue(currentXP.toInt()) //update the XP of the user in db
 
-                    neededXP = level * 100 //recalculates needed XP to level up again, because the user's level has increased
+                    neededXP =
+                        level * 100 //recalculates needed XP to level up again, because the user's level has increased
                 }
 
                 userRef.child("users/$uid/quizzes").setValue(quizzes) //updates the quizzes taken by the user
-                userRef.child("users/$uid/totalPoints").setValue(score + points) //adds the earned score to the total points of the user
-                userRef.child("CategoryPoints/$uid/$categoryRef").setValue(score + categoryPoints) //adds the earned score to the category points of the user
+                userRef.child("users/$uid/totalPoints")
+                    .setValue(score + points) //adds the earned score to the total points of the user
+                userRef.child("CategoryPoints/$uid/$categoryRef")
+                    .setValue(score + categoryPoints) //adds the earned score to the category points of the user
 
                 //checks if any level up achievements have been earned
                 getLevelUpAchievements(object : FirebaseAchievementsCallback {
@@ -338,14 +373,18 @@ class QuestionsActivity : AppCompatActivity() {
 
                 //moves the scene to the results page
                 val switchToResult = Intent(this@QuestionsActivity, ResultActivity()::class.java)
-                switchToResult.putExtra("POINTS_EARNED", score.toString())
+                switchToResult.putExtra("SCORE_EARNED", score.toString())
                 switchToResult.putExtra("CATEGORY", chosenCategory)
                 switchToResult.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(switchToResult)
             }
 
             override fun onCancelled(p0: DatabaseError) {
-
+                Toast.makeText(
+                    this@QuestionsActivity,
+                    "Error occurred while connecting to the Database",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         })
     }
@@ -377,7 +416,11 @@ class QuestionsActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(p0: DatabaseError) {
-
+                Toast.makeText(
+                    this@QuestionsActivity,
+                    "Error occurred while connecting to the Database",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         })
     }
@@ -409,7 +452,11 @@ class QuestionsActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(p0: DatabaseError) {
-
+                Toast.makeText(
+                    this@QuestionsActivity,
+                    "Error occurred while connecting to the Database",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         })
     }
@@ -442,7 +489,11 @@ class QuestionsActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(p0: DatabaseError) {
-
+                Toast.makeText(
+                    this@QuestionsActivity,
+                    "Error occurred while connecting to the Database",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         })
     }
@@ -501,7 +552,11 @@ class QuestionsActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(p0: DatabaseError) {
-
+                Toast.makeText(
+                    this@QuestionsActivity,
+                    "Error occurred while connecting to the Database",
+                    Toast.LENGTH_LONG
+                ).show()
             }
 
         })

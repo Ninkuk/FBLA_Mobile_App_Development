@@ -1,11 +1,16 @@
 package com.pathtofblaquiz.pathtofbla
 
+import android.content.Context
+import android.content.DialogInterface
+import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -47,6 +52,30 @@ class LeaderboardFragment : Fragment() {
             }
 
         })
+
+        //this is the function that is called when the layout is created
+        checkInternetConnection()
+    }
+
+    /**
+     * This function checks if the user's device is connected to the internet to access Firebase Database
+     * If the user is not connected to the internet then an alert dialog box appears reminding them to do so
+     */
+    private fun checkInternetConnection() {
+        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+
+        //if there is no connection then it shows the alert and if there is a connection nothing happens
+        if (networkInfo != null && networkInfo.isConnected) {
+        } else {
+            val builder = AlertDialog.Builder(this.context!!)
+            builder.setTitle("Connection Alert")
+            builder.setMessage("Please connect to the internet to use this app!")
+            builder.setPositiveButton("Retry") { dialogInterface: DialogInterface, i: Int ->
+                checkInternetConnection() //If the user presses retry then the function is called again
+            }
+            builder.show()
+        }
     }
 
     var users = listOf<String>() //holds a list of usernames order by their points for the leaderboards page. Initialized in getLeaderboards function
@@ -75,6 +104,7 @@ class LeaderboardFragment : Fragment() {
                 FirebaseLeaderboardsCallback.onLeaderboardsCallback(users, points) //passes the users and points list to a callback method to ensure the lists are only called after they has been fully queried.
             }
             override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(context, "Error occurred while connecting to the Database", Toast.LENGTH_LONG).show()
             }
         })
     }

@@ -8,7 +8,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
@@ -58,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textLongMessage|textMultiLine"
-                android:textCursorDrawable="@null"/>
+                android:textCursorDrawable="@null" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -147,11 +149,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:backgroundTint="@color/teal"
+            android:backgroundTint="@color/tealDark"
             android:text="Submit"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/frameLayout"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="@+id/frameLayout"
             app:layout_constraintTop_toBottomOf="@+id/selectedFileChip" />
 

@@ -81,16 +81,26 @@ class LoginActivity : AppCompatActivity() {
      */
     private fun login() {
         loginButton.setOnClickListener {
+
             val email = emailTextView.text.toString()
             val password = passwordTextView.text.toString()
 
             /*
             Checks if all the fields are filled in
-            If they are not a Toast is displayed to the user reminding them to do so
+            If they are not an error message is displayed to the user reminding them to do so
              */
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please enter all the fields to log in", Toast.LENGTH_LONG).show()
+            if (emailTextView.text.toString().isEmpty()) {
+                emailTextInputLayout.error = "Please enter a valid email address"
                 return@setOnClickListener
+            } else {
+                emailTextInputLayout.error = null
+            }
+
+            if (passwordTextView.text.toString().isEmpty()) {
+                passwordTextInputLayout.error = "Please enter your password"
+                return@setOnClickListener
+            } else {
+                passwordTextInputLayout.error = null
             }
 
             //verifies the user credentials and switches the activity to Dashboard
@@ -98,8 +108,8 @@ class LoginActivity : AppCompatActivity() {
                 .signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
-                        emailTextView.text.clear()
-                        passwordTextView.text.clear()
+                        emailTextView.text?.clear()
+                        passwordTextView.text?.clear()
 
                         val switchToDashboard = Intent(this, MainActivity::class.java)
                         switchToDashboard.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

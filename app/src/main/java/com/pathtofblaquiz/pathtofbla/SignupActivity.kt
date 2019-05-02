@@ -103,9 +103,25 @@ class SignupActivity : AppCompatActivity() {
             Checks if all the fields are filled in
             If they are not a Toast is displayed to the user reminding them to do so
              */
-            if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please enter all the fields to sign up", Toast.LENGTH_LONG).show()
+            if (usernameTextView.text.toString().isEmpty()) {
+                usernameTextInputLayout.error = "Please enter a username"
                 return@setOnClickListener
+            } else {
+                usernameTextInputLayout.error = null
+            }
+
+            if (emailTextView.text.toString().isEmpty()) {
+                emailTextInputLayout.error = "Please enter a valid email address"
+                return@setOnClickListener
+            } else {
+                emailTextInputLayout.error = null
+            }
+
+            if (passwordTextView.text.toString().isEmpty()) {
+                passwordTextInputLayout.error = "Please enter a password"
+                return@setOnClickListener
+            } else {
+                passwordTextInputLayout.error = null
             }
 
             //A new user is created in Firebase Auth using the user inputted email and password
@@ -123,7 +139,7 @@ class SignupActivity : AppCompatActivity() {
                         val categoryPointsRef = FirebaseDatabase.getInstance()
                             .getReference("/CategoryPoints/$uid") //creates a database reference to the user category points node
 
-                        val user = User(uid, username, 0, 1, 0, 0) //creates a User object
+                        val user = User(uid, username, 0, 1, 0, 0,0) //creates a User object
                         val userAchievements =
                             UserAchievements( //creates a User Achievement object and sets default values as false
                                 level5 = false,

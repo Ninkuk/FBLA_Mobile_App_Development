@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import com.google.android.material.navigation.NavigationView
 import androidx.fragment.app.FragmentTransaction
 import androidx.core.view.GravityCompat
@@ -22,8 +21,9 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
-import android.content.pm.ResolveInfo
-
+import android.view.View
+import android.widget.*
+import com.google.android.material.button.MaterialButton
 
 /**
  * Main Activity handles all the page fragments in the app. This is the super class that contains the logic to switch between the pages through the navigation drawer
@@ -38,6 +38,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var achievementsFragment: AchievementsFragment
     lateinit var aboutFragment: AboutFragment
     lateinit var bugReportFragment: BugReportFragment
+
+    //the setting values are static because they are global settings and can be applied to all the categories
+    companion object {
+        var numberOfQuestions = 5
+        var timerHardness = 30
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +61,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //these are all the functions that are called when the layout is created
         checkInternetConnection()
         updateNavHeader()
+        settingsDialog()
         signout()
 
         //instantiates all the Fragments
@@ -118,8 +125,88 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 levelProgressText.text = "${neededXP.toInt()} points to next level"
             }
 
-            override fun onCancelled(p0: DatabaseError) {}
+            override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(this@MainActivity, "Error occurred while connecting to the Database", Toast.LENGTH_LONG)
+                    .show()
+            }
         })
+    }
+
+    /**
+     * This function creates and shows the settings option for the users
+     * Settings include Number of questions from the range 5-15 questions
+     *                  Timer for questions from the range 10-30 seconds
+     */
+    private fun settingsDialog() {
+        settingsButton.setOnClickListener {
+            val settingsDialog = AlertDialog.Builder(this)
+            val dialogView = layoutInflater.inflate(R.layout.settings_dialog, null)
+
+            val questionsSeekBar = dialogView.findViewById<SeekBar>(R.id.questionsSeekBar)
+            val questionNumberText = dialogView.findViewById<TextView>(R.id.questionNumberText)
+            val easyButton = dialogView.findViewById<MaterialButton>(R.id.easyButton)
+            val mediumButton = dialogView.findViewById<MaterialButton>(R.id.mediumButton)
+            val hardButton = dialogView.findViewById<MaterialButton>(R.id.hardButton)
+
+            questionsSeekBar.progress = numberOfQuestions - 5
+            questionNumberText.text = numberOfQuestions.toString()
+
+            when (timerHardness) {
+                30 -> {
+                    easyButton.strokeColor = resources.getColorStateList(R.color.tealDark)
+                    mediumButton.strokeColor = resources.getColorStateList(R.color.light_gray)
+                    hardButton.strokeColor = resources.getColorStateList(R.color.light_gray)
+                }
+                20 -> {
+                    easyButton.strokeColor = resources.getColorStateList(R.color.light_gray)
+                    mediumButton.strokeColor = resources.getColorStateList(R.color.tealDark)
+                    hardButton.strokeColor = resources.getColorStateList(R.color.light_gray)
+                }
+                10 -> {
+                    easyButton.strokeColor = resources.getColorStateList(R.color.light_gray)
+                    mediumButton.strokeColor = resources.getColorStateList(R.color.light_gray)
+                    hardButton.strokeColor = resources.getColorStateList(R.color.tealDark)
+                }
+            }
+
+            settingsDialog.setView(dialogView)
+            settingsDialog.setPositiveButton("Close", { dialogInterface: DialogInterface, i: Int -> })
+            settingsDialog.show()
+
+            questionsSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    numberOfQuestions = p1 + 5
+                    questionNumberText.text = numberOfQuestions.toString()
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+
+                }
+            })
+
+            easyButton.setOnClickListener {
+                timerHardness = 30
+                easyButton.strokeColor = resources.getColorStateList(R.color.tealDark)
+                mediumButton.strokeColor = resources.getColorStateList(R.color.light_gray)
+                hardButton.strokeColor = resources.getColorStateList(R.color.light_gray)
+            }
+            mediumButton.setOnClickListener {
+                timerHardness = 20
+                easyButton.strokeColor = resources.getColorStateList(R.color.light_gray)
+                mediumButton.strokeColor = resources.getColorStateList(R.color.tealDark)
+                hardButton.strokeColor = resources.getColorStateList(R.color.light_gray)
+            }
+            hardButton.setOnClickListener {
+                timerHardness = 10
+                easyButton.strokeColor = resources.getColorStateList(R.color.light_gray)
+                mediumButton.strokeColor = resources.getColorStateList(R.color.light_gray)
+                hardButton.strokeColor = resources.getColorStateList(R.color.tealDark)
+            }
+        }
     }
 
     /**
@@ -134,7 +221,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .replace(R.id.switchContainer, dashboardFragment)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
-                toolbar.title = ""
+                settingsButton.visibility = View.VISIBLE
+                toolbarTitle.visibility = View.GONE
             }
             R.id.nav_statistics -> {
                 supportFragmentManager
@@ -143,6 +231,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
                 toolbar.title = "Statistics"
+                settingsButton.visibility = View.GONE
+                toolbarTitle.text = "Statistics"
+                toolbarTitle.visibility = View.VISIBLE
             }
             R.id.nav_leaderboard -> {
                 supportFragmentManager
@@ -151,6 +242,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
                 toolbar.title = "Leaderboard"
+                settingsButton.visibility = View.GONE
+                toolbarTitle.text = "Leaderboard"
+                toolbarTitle.visibility = View.VISIBLE
             }
             R.id.nav_resources -> {
                 supportFragmentManager
@@ -159,6 +253,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
                 toolbar.title = "Resources"
+                settingsButton.visibility = View.GONE
+                toolbarTitle.text = "Resources"
+                toolbarTitle.visibility = View.VISIBLE
             }
             R.id.nav_achievements -> {
                 supportFragmentManager
@@ -167,6 +264,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
                 toolbar.title = "Achievements"
+                settingsButton.visibility = View.GONE
+                toolbarTitle.text = "Achivements"
+                toolbarTitle.visibility = View.VISIBLE
             }
             R.id.nav_about -> {
                 supportFragmentManager
@@ -175,6 +275,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
                 toolbar.title = "About Us"
+                settingsButton.visibility = View.GONE
+                toolbarTitle.visibility = View.GONE
             }
             R.id.nav_bug_report -> {
                 supportFragmentManager
@@ -183,6 +285,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
                 toolbar.title = "Bug Report"
+                settingsButton.visibility = View.GONE
+                toolbarTitle.text = "Bug Report"
+                toolbarTitle.visibility = View.VISIBLE
             }
             R.id.nav_share -> {
                 val appId = applicationContext.packageName

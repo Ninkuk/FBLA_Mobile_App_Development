@@ -1,7 +1,10 @@
 package com.pathtofblaquiz.pathtofbla
 
 import android.app.Activity
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_bug_report.*
@@ -55,9 +59,31 @@ class BugReportFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //these functions are called when the view is created
+        checkInternetConnection()
         getSpinnerValue()
         attachScreenshot()
         submitReport()
+    }
+
+    /**
+     * This function checks if the user's device is connected to the internet to access Firebase Database
+     * If the user is not connected to the internet then an alert dialog box appears reminding them to do so
+     */
+    private fun checkInternetConnection() {
+        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+
+        //if there is no connection then it shows the alert and if there is a connection nothing happens
+        if (networkInfo != null && networkInfo.isConnected) {
+        } else {
+            val builder = AlertDialog.Builder(this.context!!)
+            builder.setTitle("Connection Alert")
+            builder.setMessage("Please connect to the internet to use this app!")
+            builder.setPositiveButton("Retry") { dialogInterface: DialogInterface, i: Int ->
+                checkInternetConnection() //If the user presses retry then the function is called again
+            }
+            builder.show()
+        }
     }
 
     /**

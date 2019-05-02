@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Path To FBLA</string>
 
@@ -15,4 +16,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="sign_out">Sign Out</string>
+    <string name="continueButton">Continue</string>
+    <string name="high_score_notification">New High Score Achieved!</string>
+
+    <string name="no_chart_data_error">*Please take more quizzes to see chart statistics</string>
 </resources>

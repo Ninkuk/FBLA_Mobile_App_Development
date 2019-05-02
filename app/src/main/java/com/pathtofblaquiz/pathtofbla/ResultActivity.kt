@@ -1,10 +1,24 @@
 package com.pathtofblaquiz.pathtofbla
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_result.*
 
 /**
@@ -16,15 +30,22 @@ import kotlinx.android.synthetic.main.activity_result.*
  */
 class ResultActivity : AppCompatActivity() {
 
+    val uid = FirebaseAuth.getInstance().uid ?: ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
 
-        val points = intent.getStringExtra("POINTS_EARNED").toString()
+        val score = intent.getStringExtra("SCORE_EARNED").toInt()
         val category = intent.getStringExtra("CATEGORY")
-        pointsEarned.text = "$points Points"
+        pointsEarned.text = "$score Points"
 
-        if (points.toInt() != 0) {
+        updateScoreHistory(score.toFloat())
+        updateHighScore(score)
+
+        if (score != 0) {
             val mediaPlayerTada = MediaPlayer.create(this, R.raw.tada)
             mediaPlayerTada.start()
         }
@@ -36,10 +57,11 @@ class ResultActivity : AppCompatActivity() {
         }
 
         twitterShareButton.setOnClickListener {
-            val message = "I just earned $points points in $category quiz in Path to FBLA app"
+            val message = "I just earned $score points in $category quiz in Path to FBLA app"
 
             val appId = applicationContext.packageName
-            val url = "http://www.twitter.com/intent/tweet?url=https://play.google.com/store/apps/details?id=$appId&text=$message"
+            val url =
+                "http://www.twitter.com/intent/tweet?url=https://play.google.com/store/apps/details?id=$appId&text=$message"
 
             val intentShare = Intent()
             intentShare.action = Intent.ACTION_VIEW
@@ -49,7 +71,8 @@ class ResultActivity : AppCompatActivity() {
 
         emailShareButton.setOnClickListener {
             val appId = applicationContext.packageName
-            val message = "I just earned $points points in $category quiz in Path to FBLA app\n\nhttps://play.google.com/store/apps/details?id=$appId"
+            val message =
+                "I just earned $score points in $category quiz in Path to FBLA app\n\nhttps://play.google.com/store/apps/details?id=$appId"
 
             val intentShare = Intent()
             intentShare.action = Intent.ACTION_SEND
@@ -57,5 +80,74 @@ class ResultActivity : AppCompatActivity() {
             intentShare.type = "text/plain"
             startActivity(Intent.createChooser(intentShare, "Share using"))
         }
+    }
+
+    /**
+     * This function queries and checks the current high score of a user and if the current score is greater than that, it replaces the high score
+     */
+    private fun updateHighScore(score: Int) {
+        val ref = FirebaseDatabase.getInstance()
+            .getReference("users/$uid/highScore") //creates a database reference to the user's high score
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                var query = p0.value.toString().toInt() //queries the user's high score
+
+                //if the score of the user is higher than their high score, then it updates the high score value in database
+                if (score > query) {
+                    ref.setValue(score)
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+        })
+    }
+
+    /**
+     * This function updates the user's score history. The new score is added to the databse and the oldest score is removed.
+     * @param newScore - the new score is used to append the database with recent scores
+     */
+    private fun updateScoreHistory(newScore: Float) {
+        getScoreHistory(object : FirebaseScoresCallback {
+            override fun onScoresCallback(list: List<Float>) {
+                val scoreList = list.toMutableList()
+
+                if (scoreList.size < 5) {
+                    scoreList.add(newScore)
+                } else {
+                    scoreList.removeAt(0)
+                    scoreList.add(newScore)
+                }
+
+                val database = FirebaseDatabase.getInstance().getReference("ScoreHistory/$uid")
+                for (i in 0..(scoreList.size - 1)) {
+                    val x = i + 1
+                    database.child("$x").setValue(scoreList[i])
+                }
+            }
+        })
+    }
+
+    /**
+     * This function queries the last 5 user scores and puts them in a list to be updated
+     */
+    private fun getScoreHistory(firebaseScoresCallback: FirebaseScoresCallback) {
+        val database = FirebaseDatabase.getInstance().getReference("ScoreHistory/$uid")
+
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                var scores: List<Float> = mutableListOf()
+                for (postSnapshot in p0.children) {
+                    val query = postSnapshot.value.toString().toFloat()
+                    scores += query
+                }
+                firebaseScoresCallback.onScoresCallback(scores)
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
     }
 }

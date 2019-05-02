@@ -10,6 +10,7 @@ package com.pathtofblaquiz.pathtofbla
 interface FirebaseQuestionCallback {
     fun onQuestionCallback(list: List<Question>)
 }
+
 /**
  * This interface is used when querying usernames and points for the leaderboards
  */
@@ -20,6 +21,13 @@ interface FirebaseLeaderboardsCallback {
 /**
  * This interface is used when querying user's incomplete achievements
  */
-interface FirebaseAchievementsCallback{
+interface FirebaseAchievementsCallback {
     fun onAchievementsCallback(achievementList: List<String>)
+}
+
+/**
+ * This interface is used when querying user's score history
+ */
+interface FirebaseScoresCallback {
+    fun onScoresCallback(scores: List<Float>)
 }
