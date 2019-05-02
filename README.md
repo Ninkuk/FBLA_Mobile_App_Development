@@ -59,7 +59,7 @@ Firebase test lab was used to test the app and ensure the best quality for our u
    * On an Android device, download our app from the [playstore](https://play.google.com/store/apps/details?id=com.pathtofblaquiz.pathtofbla)
    * Open the app
    #### Through APK
-   * On an Android device, download our app APK file from here
+   * On an Android device, download our app APK file from [here](https://github.com/Ninkuk/FBLA_Mobile_App_Development/blob/master/app-release.apk)
    * Open the download Path to FBLA app on your phone
    #### Through Android Studio Emulator
    * Download our entire repository as a zip
