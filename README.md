@@ -12,6 +12,7 @@ Path to FBLA is a mobile app that helps the user pave their path to become a Fut
    * Sign up and log in using firebase authentication
    * An intro wizard for new users.
    * Timed questions
+   * Users can customize their quiz diffuclty by changing the amount of questions and the timer length of each question
    * Sounds are incorporated in the quiz. For example, a ta-da sound is played once the user finishes the quiz
    * Earn points for each quiz. The score takes the time used and number of correct answers into the calculation
    * The users can share their score through Twitter or another social media platform
@@ -20,6 +21,9 @@ Path to FBLA is a mobile app that helps the user pave their path to become a Fut
    * Users can see how they compare with other users on the leaderboards page. The leaderboards are ranked by the total points of each user
    * Users can learn the content through flashcards we created on Quizlet. The links to Quizlet can be found on the resources page. The links open an in-app browser through WebView
    * In-depth analysis of user performance in the statistics page
+        * We provide the users with a graph of their most recent scores
+        * The total and average points are given
+        * User points for each category are also provided
    * Users can report any bugs they find in the bug report page
    * Users can share and rate our app
    * Our app is live on the [playstore!](https://play.google.com/store/apps/details?id=com.pathtofblaquiz.pathtofbla) 
